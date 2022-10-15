@@ -1,16 +1,16 @@
 import { Card, Text, Divider } from "@nextui-org/react";
 
-const SearchCard = () => {
+const SearchCard = ({order,product,code}) => {
   return (
-    <Card variant="flat">
+    <Card variant="flat" css={{marginBottom:"0.5rem"}}>
       <Card.Header
         css={{ display: "inline-flex", justifyContent: "space-between" }}
       >
         <Text b size="13px">
-          Customer Name
+          {order.name}
         </Text>
         <Text b size="13px">
-          2022-10-14
+          {order.date}
         </Text>
       </Card.Header>
       <Divider />
@@ -24,10 +24,10 @@ const SearchCard = () => {
         }}
       >
         <Text b size="13px">
-          Product Name
+          {product.name}
         </Text>
         <Text b size="13px">
-          20224564564564
+          {code}
         </Text>
       </Card.Body>
     </Card>

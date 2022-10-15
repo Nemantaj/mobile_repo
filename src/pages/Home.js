@@ -22,14 +22,7 @@ const Home = (props) => {
       <div className="orderDiv">
         {props.filteredOrders.length > 0 &&
           props.filteredOrders.map((doc, index) => {
-            return (
-              <OrderCard
-                key={index}
-                name={doc.name}
-                date={doc.date}
-                products={doc.products}
-              />
-            );
+            return <OrderCard key={index} name={doc.name} date={doc.date.slice(0,10)} products={doc.products} id={doc._id} />;
           })}
       </div>
       <div className="actionContainer">
@@ -55,7 +48,7 @@ const Home = (props) => {
           />
         </div>
       </div>
-      <SearchModal visible={isVisible} onClose={() => setIsVisible(false)} />
+      <SearchModal visible={isVisible} orders={props.allOrders} onClose={() => setIsVisible(false)} />
     </Fragment>
   );
 };

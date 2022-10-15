@@ -1,11 +1,30 @@
 import { Text, Card, Collapse, Button, Divider } from "@nextui-org/react";
-import { Fragment } from "react";
-import { useNavigate } from "react-router-dom";
+import { Fragment,useEffect,useState } from "react";
+import { useNavigate,useParams } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import "./Home.css";
 
 const Orders = () => {
+  const [data, setdata] = useState(null)
   const navigate = useNavigate();
+  const params = useParams()
+  const id = params.id
+  useEffect(() => {
+    fetch(`/order/${id}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Error occured while trying to fetch!");
+        }
+        return res.json();
+      })
+      .then((dta) => {
+        console.log(dta);
+        setdata(dta)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id]);
   return (
     <Fragment>
       <div className="header">
@@ -24,51 +43,53 @@ const Orders = () => {
             }}
           >
             <Text size="12px">Party Name</Text>
-            <Text b>Custome name</Text>
+            <Text b>{data && data.name}</Text>
             <Text css={{ mt: "20px" }} size="12px">
               Order Date
             </Text>
-            <Text b>12/12/30</Text>
+            <Text b>{data && data.date.slice(0,10)}</Text>
           </Card.Header>
           <Divider />
           <Card.Body css={{ p: "10px" }}>
             <Collapse
-              subtitle="dasdas asd ad"
+              subtitle="Products"
               css={{ color: "black" }}
               divider={false}
             >
-              <Card variant="bordered" css={{ bgColor: "$accents0" }}>
-                <Card.Header
-                  css={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "start",
-                  }}
-                >
-                  <Text size="12px">Product Type</Text>
-                  <Text b size="13px">
-                    Custome name
-                  </Text>
-                  <Text css={{ mt: "10px" }} size="12px">
-                    Variant
-                  </Text>
-                  <Text b size="13px">
-                    12/12/30
-                  </Text>
-                  <Text css={{ mt: "10px" }} size="12px">
-                    Product Name
-                  </Text>
-                  <Text b size="13px">
-                    iPhone 12 Pro Max
-                  </Text>
-                </Card.Header>
-                <Divider />
-                <Card.Body className="collapseBody">
-                  <li>5646489787</li>
-                  <li>5646489787</li>
-                  <li>5646489787</li>
-                </Card.Body>
-              </Card>
+              {data && data.products.map(product => {
+                return <Card variant="bordered" css={{ bgColor: "$accents0",marginBottom: "0.5rem"}}>
+                  <Card.Header
+                    css={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "start",
+                    }}
+                  >
+                    <Text size="12px">Product Type</Text>
+                    <Text b size="13px">
+                      {product.category}
+                    </Text>
+                    <Text css={{ mt: "10px" }} size="12px">
+                      Variant
+                    </Text>
+                    <Text b size="13px">
+                      {product.details}
+                    </Text>
+                    <Text css={{ mt: "10px" }} size="12px">
+                      Product Name
+                    </Text>
+                    <Text b size="13px">
+                      {product.name}
+                    </Text>
+                  </Card.Header>
+                  <Divider />
+                  <Card.Body className="collapseBody">
+                    {product.codes.map(code => {
+                      return <li>{code}</li>
+                    })}
+                  </Card.Body>
+                </Card>
+              })}
             </Collapse>
           </Card.Body>
         </Card>

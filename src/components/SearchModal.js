@@ -21,8 +21,19 @@ const SearchModal = (props) => {
       return;
     }
     const timeoutId = setTimeout(() => {
-      console.log("working!");
-      //fetch function here!
+      fetch(`/order/search?q=${inputValue}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Error occured while trying to fetch!");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setResult(data)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }, 500);
     return () => {
       clearTimeout(timeoutId);
@@ -67,15 +78,28 @@ const SearchModal = (props) => {
         }}
       >
         <div className="searchResult">
-          <SearchCard />
-          <SearchCard />
-          <SearchCard />
-          <SearchCard />
-          <SearchCard />
-          <SearchCard />
-          <SearchCard />
-          <SearchCard />
-          <SearchCard />
+          {result.map((order)=>{
+            return <div>
+            {order.products.map(product=>{
+              if(product.name.indexOf(inputValue)!=-1 || order.name.indexOf(inputValue)!=-1){
+                return <div>
+                {product.codes.map(code=>{
+                  return <SearchCard order={order} product={product} code={code}/>
+                })}
+              </div>
+              }
+              else if(!isNaN(inputValue)){
+                return <div>
+                {product.codes.map(code=>{
+                  if(code.indexOf(inputValue)==0){
+                    return <SearchCard order={order} product={product} code={code}/>
+                  }
+                })}
+              </div>
+              }         
+            })}
+            </div>
+          })}
         </div>
       </Modal.Body>
     </Modal>

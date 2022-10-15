@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Modal, Text, Input, Button, Divider } from "@nextui-org/react";
 import useInput from "../hooks/useInput";
-import { AiFillCloseCircle } from "react-icons/ai";
-import BarcodeScannerComponent from "react-qr-barcode-scanner";
+import {
+  AiFillCloseCircle,
+  AiOutlinePlus,
+  AiOutlineBarcode,
+} from "react-icons/ai";
+import Scanner from "./scanner/Scanner";
 
 const selctValues = [
   { title: "iPhone", value: "iphone" },
@@ -14,6 +18,9 @@ const AddModal = (props) => {
   const [imeis, setImeis] = useState([]);
   const [category, setCategory] = useState(null);
   const [isValid, setIsValid] = useState(true);
+  const [scanVisible, setScanVisible] = useState(false);
+  const [results, setResults] = useState([]);
+  const scanCodeRef = useRef();
 
   const {
     inputValue: detailValue,
@@ -57,6 +64,17 @@ const AddModal = (props) => {
     return clearImeis();
   };
 
+  const onDetected = (result) => {
+    setResults([]);
+    setResults(results.concat([result]));
+  };
+
+  const pushScanValue = (value) => {
+    const newImei = [...imeis, value];
+    setImeis(newImei);
+    return clearImeis();
+  };
+
   const removeImeiHandler = (index) => {
     const newImeis = [...imeis];
     let splicedImeis;
@@ -74,6 +92,11 @@ const AddModal = (props) => {
     clearPrice();
     cleardetail();
     return props.closeHandler();
+  };
+
+  const toggleScanner = () => {
+    setResults([]);
+    setScanVisible(!scanVisible);
   };
 
   const submitHandler = (event) => {
@@ -194,6 +217,15 @@ const AddModal = (props) => {
               aria-label="Imei"
             />
             <Button
+              auto
+              flat
+              color="warning"
+              rounded
+              onClick={toggleScanner}
+            >
+              <AiOutlineBarcode />
+            </Button>
+            <Button
               disabled={imeiValid ? false : true}
               auto
               flat
@@ -201,7 +233,7 @@ const AddModal = (props) => {
               rounded
               onClick={pushImeiHandler}
             >
-              Add
+              <AiOutlinePlus />
             </Button>
           </div>
           <div className="addedImeis">
@@ -225,6 +257,37 @@ const AddModal = (props) => {
                 );
               })}
           </div>
+          {scanVisible && (
+            <div>
+              <div className="scanActions">
+                <Input
+                  type="text"
+                  value={
+                    results[0] ? results[0].codeResult.code : "No data scanned!"
+                  }
+                  bordered
+                  rounded
+                  ref={scanCodeRef}
+                  disabled
+                  css={{ w: "90%" }}
+                />
+                <Button
+                  color="warning"
+                  flat
+                  rounded
+                  auto
+                  disabled={results[0] ? false : true}
+                  onClick={() => pushScanValue(scanCodeRef.current.value)}
+                >
+                  <AiOutlinePlus />
+                </Button>
+              </div>
+              <div className="scanner">
+                <Scanner onDetected={onDetected} />
+              </div>
+            </div>
+          )}
+
           <Button
             disabled={
               nameValid &&

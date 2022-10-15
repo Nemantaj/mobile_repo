@@ -42,31 +42,33 @@ const NewOrder = (props) => {
     return setProducts(splicedProd);
   };
 
-  //POST new order ---------------------------------------------------------------
   const submitHandler = () => {
+    console.log("form submittted");
     if (!nameValid && products.length == 0) {
       return;
     }
-    const orderData = { orderName: nameValue, date: date, products: products };
+
+    const orderData = { name: nameValue, date: date, products: products };
+    console.log(orderData);
     setLoading(true);
-    fetch("post route here!", {
+    fetch("/order/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(orderData),
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("There was an error while posting the order.");
-        }
-        props.triggerUpdate();
-        setLoading(false);
-        return navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("There was an error while posting the order.");
+      }
+      props.triggerUpdate();
+      setLoading(false);
+      return navigate("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
   return (
@@ -142,7 +144,7 @@ const NewOrder = (props) => {
                     return (
                       <div key={index} className="imeis">
                         <Text b size="14px">
-                          {doc.nameValue} ({doc.barcode.length})
+                          {doc.name} ({doc.codes.length})
                         </Text>
                         <Button
                           auto

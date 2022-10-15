@@ -125,9 +125,25 @@
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
-.linkCard{
-
+.linkCard {
   width: 100%;
   max-width: 550px;
+}
+
+.scanActions {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.scanner{
+
+  width: 100%;
+  background-color: black;
+  max-height: 300px;
+  display: flex;
 
 }
