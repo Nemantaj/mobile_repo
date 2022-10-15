@@ -1,0 +1,133 @@
+.header {
+  padding: 10px;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.alignCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orderDetails {
+  padding: 10px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.orderDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-top: 30px;
+  gap: 10px;
+  margin-bottom: 50px;
+}
+
+.actionContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionDiv {
+  max-width: 550px;
+  width: 100%;
+  display: inline-flex;
+  gap: 10px;
+  right: 20px;
+  justify-content: right;
+  position: fixed;
+  bottom: 20px;
+}
+
+.searchResult {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nextui-collapse-subtitle {
+  color: black !important;
+}
+
+.collapseBody li {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.newOrderAction {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.newOrderForm,
+.imeiForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selectCustom {
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 20px;
+  border: 2px solid #d9d9d9;
+}
+
+.selectCustom:hover {
+  border-color: black;
+}
+
+.imeiAdd {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.addedImeis,
+.addedProducts {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.imeis {
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#select {
+  padding: 3px;
+  width: 100%;
+  border: none;
+}
+
+.cardShadow {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.linkCard{
+
+  width: 100%;
+  max-width: 550px;
+
+}
