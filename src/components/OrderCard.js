@@ -16,7 +16,7 @@ const OrderCard = (props) => {
             {props.name}
           </Text>
           <Text b size="13px">
-            2022-10-14
+            {new Date(props.date).toLocaleDateString("en-US")}
           </Text>
         </Card.Header>
         <Divider />
@@ -28,20 +28,25 @@ const OrderCard = (props) => {
             gap: "5px",
           }}
         >
-          <Text
-            size="13px"
-            css={{
-              br: "20px",
-              py: "5px",
-              px: "10px",
-              bgColor: "$blue100",
-              w: "fit-content",
-            }}
-            color="$blue800"
-            b
-          >
-            iPhone 12 pro max (5)
-          </Text>
+          {props.products.length > 0 &&
+            props.products.map((doc, index) => {
+              return (
+                <Text
+                  size="13px"
+                  css={{
+                    br: "20px",
+                    py: "5px",
+                    px: "10px",
+                    bgColor: "$blue100",
+                    w: "fit-content",
+                  }}
+                  color="$blue800"
+                  b
+                >
+                  {doc.name} ({doc.codes.length})
+                </Text>
+              );
+            })}
         </Card.Body>
       </Card>
     </Link>

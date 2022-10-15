@@ -13,9 +13,10 @@ import { useNavigate } from "react-router-dom";
 
 import "./Home.css";
 
-const NewOrder = () => {
+const NewOrder = (props) => {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
 
@@ -41,13 +42,31 @@ const NewOrder = () => {
     return setProducts(splicedProd);
   };
 
+  //POST new order ---------------------------------------------------------------
   const submitHandler = () => {
     if (!nameValid && products.length == 0) {
       return;
     }
-
     const orderData = { orderName: nameValue, date: date, products: products };
-    console.log(orderData);
+    setLoading(true);
+    fetch("post route here!", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("There was an error while posting the order.");
+        }
+        props.triggerUpdate();
+        setLoading(false);
+        return navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

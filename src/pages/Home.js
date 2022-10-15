@@ -22,7 +22,14 @@ const Home = (props) => {
       <div className="orderDiv">
         {props.filteredOrders.length > 0 &&
           props.filteredOrders.map((doc, index) => {
-            return <OrderCard key={index} name={doc.name} />;
+            return (
+              <OrderCard
+                key={index}
+                name={doc.name}
+                date={doc.date}
+                products={doc.products}
+              />
+            );
           })}
       </div>
       <div className="actionContainer">
